@@ -19,7 +19,6 @@ body{margin:0}
   --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
   --latin:"Cormorant Garamond","Times New Roman",serif;
   --ease:cubic-bezier(.19,1,.22,1);
-  --h:clamp(240px,52vh,520px);   /* 照片高度，整个布局由它驱动 */
   --mat:clamp(7px,.75vw,12px);   /* 相纸留白 */
 }
 
@@ -260,21 +259,23 @@ body.show-wall .verse-en{animation:fadeUp 1.2s var(--ease) forwards .36s}
 
 /* --- 相框 --- */
 .frames{
-  display:flex;align-items:flex-start;justify-content:center;
-  gap:clamp(12px,1.9vw,30px);
-  width:100%;perspective:1600px;
-  margin-top:clamp(2px,1vh,12px);
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(12px,1.5vw,24px);
+  width:min(1120px,100%,max(720px,calc((100dvh - 450px) * 2)));
+  perspective:1800px;
+  margin-top:clamp(2px,1vh,10px);
 }
 
 .frame-wrap{
-  margin:0;flex:0 0 auto;
+  margin:0;min-width:0;
   opacity:0;transform-origin:50% 62%;
 }
-body.show-wall .frame-wrap{animation:frameIn 1.5s var(--ease) forwards;animation-delay:calc(.44s + var(--i) * .17s)}
+body.show-wall .frame-wrap{animation:frameIn 1.4s var(--ease) forwards;animation-delay:calc(.42s + var(--i) * .085s)}
 @keyframes frameIn{
-  0%{opacity:0;transform:translateY(62px) scale(.84) rotate(0deg);filter:blur(24px) brightness(1.5)}
-  55%{opacity:1;filter:blur(3px) brightness(1.1)}
-  100%{opacity:1;transform:translateY(var(--ty)) scale(1) rotate(var(--r));filter:blur(0) brightness(1)}
+  0%{opacity:0;transform:translateY(46px) scale(.86);filter:blur(20px) brightness(1.5)}
+  55%{opacity:1;filter:blur(3px) brightness(1.08)}
+  100%{opacity:1;transform:translateY(0) scale(1) rotate(var(--r));filter:blur(0) brightness(1)}
 }
 
 .frame{
@@ -307,7 +308,7 @@ body.show-wall .frame-wrap{animation:frameIn 1.5s var(--ease) forwards;animation
 }
 .frame-mat{position:relative;overflow:hidden;background:#efe9e0}
 .frame-mat img{
-  display:block;height:var(--h);width:auto;aspect-ratio:9/16;object-fit:cover;
+  display:block;width:100%;aspect-ratio:2/1;object-fit:cover;object-position:50% 42%;
   filter:saturate(1.02) contrast(1.02) brightness(1.01);
   transform:scale(1.01);
   transition:transform 1.2s var(--ease),filter .8s ease;
@@ -327,14 +328,14 @@ body.show-wall .frame-wrap{animation:frameIn 1.5s var(--ease) forwards;animation
 
 figcaption{
   display:flex;align-items:center;justify-content:center;
-  padding-top:12px;
+  padding-top:9px;
   font-family:var(--latin);
-  font-size:clamp(12px,1.1vw,15px);letter-spacing:.24em;
+  font-size:clamp(10px,0.85vw,13px);letter-spacing:.22em;
   color:rgba(150,106,60,.9);
 }
-figcaption .no{position:relative;padding:0 10px}
+figcaption .no{position:relative;padding:0 9px}
 figcaption .no::before,figcaption .no::after{
-  content:"";position:absolute;top:50%;width:12px;height:1px;background:rgba(150,106,60,.5);
+  content:"";position:absolute;top:50%;width:10px;height:1px;background:rgba(150,106,60,.5);
 }
 figcaption .no::before{left:-12px}
 figcaption .no::after{right:-12px}
@@ -355,7 +356,7 @@ body.show-wall .reset{animation:fadeUp 1.1s var(--ease) forwards 2.1s}
 .reset:focus-visible{outline:1px solid rgba(168,122,74,.6);outline-offset:3px}
 
 /* 兜底：动画结束后锁定为稳定可见状态 */
-body.wall-settled .frame-wrap{animation:none;opacity:1;transform:translateY(var(--ty)) rotate(var(--r));filter:none}
+body.wall-settled .frame-wrap{animation:none;opacity:1;transform:rotate(var(--r));filter:none}
 body.wall-settled .ornament,
 body.wall-settled .verse,
 body.wall-settled .verse-en,
@@ -408,18 +409,17 @@ body.lb-open .topbar{opacity:0;pointer-events:none}
    响应式 / 无障碍
    ============================================================ */
 @media (max-width:1000px){
-  .frames{flex-wrap:wrap;gap:clamp(14px,2.6vw,22px) clamp(10px,2.4vw,18px);max-width:640px}
-  .frame-wrap{width:min(38vw,208px);--r:0deg !important;--ty:0px !important}
-  .frame-mat img{height:auto;width:100%}
+  .frames{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,3vw,20px);width:100%}
+  .frame-wrap{--r:0deg !important}
   .br-m{display:inline}
   .verse{font-size:clamp(15px,3.9vw,22px);letter-spacing:.1em;line-height:1.85}
-  .wall{padding:clamp(60px,8vh,80px) 4vw clamp(34px,5vh,54px)}
+  .wall{padding:clamp(58px,8vh,78px) 4vw clamp(34px,5vh,54px)}
   .wall-inner{gap:clamp(10px,1.6vh,18px)}
-  figcaption{padding-top:8px}
+  figcaption{padding-top:7px}
   .brand-en{display:none}
 }
-@media (max-width:420px){
-  .frame-wrap{width:min(43vw,190px)}
+@media (max-width:430px){
+  .frames{gap:10px}
   figcaption .no::before,figcaption .no::after{display:none}
 }
 

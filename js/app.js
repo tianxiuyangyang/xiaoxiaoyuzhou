@@ -268,10 +268,11 @@
         stage.style.transform = `translate3d(${(-px * 12).toFixed(2)}px,${(-py * 8).toFixed(2)}px,0)`;
       } else if (body.classList.contains('show-wall')) {
         frameBoxes.forEach((el, i) => {
-          const dir = i % 2 === 0 ? 1 : -1;
+          const col = i % 3;
+          const dir = col === 0 ? 1 : (col === 2 ? -1 : 0);
           el.style.transform =
-            `perspective(1600px) rotateY(${(px * 5 * dir).toFixed(2)}deg)` +
-            ` rotateX(${(-py * 3.4).toFixed(2)}deg) translateZ(10px)`;
+            `perspective(1800px) rotateY(${(px * 4.5 * dir).toFixed(2)}deg)` +
+            ` rotateX(${(-py * 3).toFixed(2)}deg) translateZ(8px)`;
         });
       }
     }
